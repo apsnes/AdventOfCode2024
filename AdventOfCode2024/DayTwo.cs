@@ -46,5 +46,47 @@ namespace AdventOfCode2024
             }
             return safeArrays;
         }
+        internal static int Solution_Two()
+        {
+            int safeArrays = 0;
+
+            for (int row = 0; row < matrix.Length; row++)
+            {
+                bool isIncreasing = matrix[row][1] > matrix[row][0];
+                bool isSafe = true;
+                int badCount = 0;
+                for (int col = 1; col < matrix[row].Length; col++)
+                {
+                    bool violatesOrder = isIncreasing ? matrix[row][col] < matrix[row][col - 1] : matrix[row][col] > matrix[row][col - 1];
+                    bool largeDifference = Math.Abs(matrix[row][col - 1] - matrix[row][col]) > 3;
+                    bool duplicateValue = matrix[row][col - 1] == matrix[row][col];
+                    if (col < matrix[row].Length - 1)
+                    {
+                        if (matrix[row][col-1] == matrix[row][col+1]) duplicateValue = true;
+                    }
+
+                    if (violatesOrder || largeDifference || duplicateValue)
+                    {
+                        badCount++;
+                        if (col < matrix[row].Length -1)
+                        {
+                            bool canSkip = isIncreasing ? matrix[row][col - 1] < matrix[row][col + 1] : matrix[row][col - 1] > matrix[row][col + 1];
+                            if (!canSkip)
+                            {
+                                isSafe = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (badCount > 1)
+                    {
+                        isSafe = false;
+                        break;
+                    }
+                }
+                if (isSafe) safeArrays++;
+            }
+            return safeArrays;
+        }
     }
 }

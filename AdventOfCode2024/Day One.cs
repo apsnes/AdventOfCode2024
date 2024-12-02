@@ -8,10 +8,10 @@ namespace AdventOfCode2024
 {
     internal class Day_One
     {
+        internal static List<int> leftColumn = new();
+        internal static List<int> rightColumn = new();
         internal static int Solution()
         {
-            List<int> leftColumn = new();
-            List<int> rightColumn = new();
             StreamReader sr = new("DayOne.txt");
             string line;
             while((line = sr.ReadLine()) != null)
@@ -28,6 +28,24 @@ namespace AdventOfCode2024
                 totalDistance += Math.Abs(leftColumn[i] - rightColumn[i]);
             }
             return totalDistance;
+        }
+        internal static int Solution_Part_Two()
+        {
+            Dictionary<int, int> rightColumnCounts = new();
+            int similarityScore = 0;
+            foreach(int val in rightColumn)
+            {
+                if(!rightColumnCounts.ContainsKey(val)) rightColumnCounts[val] = 0;
+                rightColumnCounts[val]++;
+            }
+            foreach(int val in leftColumn)
+            {
+                if (rightColumnCounts.ContainsKey(val))
+                {
+                    similarityScore += val * rightColumnCounts[val];
+                }
+            }
+            return similarityScore;
         }
     }      
 }

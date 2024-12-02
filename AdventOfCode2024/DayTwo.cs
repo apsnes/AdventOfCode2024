@@ -27,66 +27,45 @@ namespace AdventOfCode2024
                 matrix[i] = currentArray;
                 i++;
             }
-
             int safeArrays = 0;
-
             for (int row = 0; row < matrix.Length; row++)
             {
-                bool isIncreasing = matrix[row][1] > matrix[row][0];
-                bool isSafe = true;
-                for (int col = 1; col < matrix[row].Length; col++)
-                {
-                    if (isIncreasing && matrix[row][col] < matrix[row][col - 1] || !isIncreasing && matrix[row][col] > matrix[row][col - 1] || Math.Abs(matrix[row][col - 1] - matrix[row][col]) > 3 || matrix[row][col - 1] == matrix[row][col])
-                    {
-                        isSafe = false;
-                        break;
-                    }         
-                }
-                if (isSafe) safeArrays++;
+                if (Is_Array_Valid(matrix[row])) safeArrays++;
             }
             return safeArrays;
         }
         internal static int Solution_Two()
         {
             int safeArrays = 0;
-
             for (int row = 0; row < matrix.Length; row++)
             {
-                bool isIncreasing = matrix[row][1] > matrix[row][0];
-                bool isSafe = true;
-                int badCount = 0;
-                for (int col = 1; col < matrix[row].Length; col++)
+                List<int> nums = new List<int>(matrix[row]);
+                for (int i = 0; i < matrix[row].Length; i++)
                 {
-                    bool violatesOrder = isIncreasing ? matrix[row][col] < matrix[row][col - 1] : matrix[row][col] > matrix[row][col - 1];
-                    bool largeDifference = Math.Abs(matrix[row][col - 1] - matrix[row][col]) > 3;
-                    bool duplicateValue = matrix[row][col - 1] == matrix[row][col];
-                    if (col < matrix[row].Length - 1)
+                    nums.RemoveAt(i);
+                    int[] currentArray = nums.ToArray();
+                    if (Is_Array_Valid(currentArray))
                     {
-                        if (matrix[row][col-1] == matrix[row][col+1]) duplicateValue = true;
-                    }
-
-                    if (violatesOrder || largeDifference || duplicateValue)
-                    {
-                        badCount++;
-                        if (col < matrix[row].Length -1)
-                        {
-                            bool canSkip = isIncreasing ? matrix[row][col - 1] < matrix[row][col + 1] : matrix[row][col - 1] > matrix[row][col + 1];
-                            if (!canSkip)
-                            {
-                                isSafe = false;
-                                break;
-                            }
-                        }
-                    }
-                    if (badCount > 1)
-                    {
-                        isSafe = false;
+                        safeArrays++;
                         break;
                     }
+                    nums.Insert(i, matrix[row][i]);
                 }
-                if (isSafe) safeArrays++;
             }
             return safeArrays;
+        }
+
+        public static bool Is_Array_Valid(int[] arr)
+        {
+            bool isIncreasing = arr[1] > arr[0];
+            for (int col = 1; col < arr.Length; col++)
+            {
+                if ((isIncreasing && arr[col] < arr[col - 1]) || (!isIncreasing && arr[col] > arr[col - 1]) || Math.Abs(arr[col - 1] - arr[col]) > 3 || arr[col - 1] == arr[col])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

@@ -9,7 +9,7 @@
             //Console.WriteLine(DayTwo.Solution_One());
             //Console.WriteLine(DayTwo.Solution_Two());
             DayThree.ReadFile();
-            Console.WriteLine(DayThree.Solution_One());
+            Console.WriteLine(DayThree.Solution_Two());
         }
     }
 }

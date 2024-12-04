@@ -11,7 +11,7 @@
             //DayThree.ReadFile();
             //Console.WriteLine(DayThree.Solution_Two());
             DayFour.ReadFile();
-            Console.WriteLine(DayFour.Solution_One());
+            Console.WriteLine(DayFour.Solution_Two());
         }
     }
 }

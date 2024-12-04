@@ -73,31 +73,35 @@ namespace AdventOfCode2024
             return true;
         }
 
-        static string patternSM = @"S.M";
-        static string patternMS = @"M.S";
-
         internal static int Solution_Two()
         {
             int count = 0;
+            //string patternSM = @"S.M";
+            //string patternMS = @"M.S";
 
-            for (int i = 1; i < matrix.Length - 1; i++)
+            for (int i = 0; i < matrix.Length; i++)
             {
-                for (int j = 1; j < matrix[i].Length - 1; j++)
+                for (int j = 0; j < matrix[i].Length; j++)
                 {
                     if (matrix[i][j] == 'A')
                     {
-                        string diag1 = new string(new char[] { matrix[i - 1][j - 1], matrix[i][j], matrix[i + 1][j + 1] }); 
-                        string diag2 = new string(new char[] { matrix[i - 1][j + 1], matrix[i][j], matrix[i + 1][j - 1] });
-                        if ((Regex.IsMatch(diag1, patternSM) && Regex.IsMatch(diag2, patternMS)) || (Regex.IsMatch(diag1, patternMS) && Regex.IsMatch(diag2, patternSM)))
+                        try
                         {
-                            Console.WriteLine($"Checking position ({i}, {j}) with diagonals: {diag1} and {diag2}");
-                            count++;
-                            break;
+                            string diag1 = new string(new char[] { matrix[i - 1][j - 1], matrix[i][j], matrix[i + 1][j + 1] });
+                            string diag2 = new string(new char[] { matrix[i - 1][j + 1], matrix[i][j], matrix[i + 1][j - 1] });
+                            if ((diag1 == "SAM" && diag2 == "SAM") || (diag1 == "SAM" && diag2 == "MAS") || (diag1 == "MAS" && diag2 == "MAS") || (diag1 == "MAS" && diag2 == "SAM"))
+                            {
+                                count++;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
                         }
                     }
                 }
             }
-            return count; //137
+            return count; 
         }
     }
 }

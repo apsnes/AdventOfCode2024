@@ -10,8 +10,10 @@
             //Console.WriteLine(DayTwo.Solution_Two());
             //DayThree.ReadFile();
             //Console.WriteLine(DayThree.Solution_Two());
-            DayFour.ReadFile();
-            Console.WriteLine(DayFour.Solution_Two());
+            //DayFour.ReadFile();
+            //Console.WriteLine(DayFour.Solution_Two());
+            DayFive.ReadFile();
+            Console.WriteLine(DayFive.Solution_One());
         }
     }
 }

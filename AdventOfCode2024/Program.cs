@@ -13,7 +13,14 @@
             //DayFour.ReadFile();
             //Console.WriteLine(DayFour.Solution_Two());
             DayFive.ReadFile();
-            Console.WriteLine(DayFive.Solution_One());
+            try
+            {
+                Console.WriteLine(DayFive.Solution_Two());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }

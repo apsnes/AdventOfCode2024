@@ -46,7 +46,15 @@ namespace AdventOfCode2024
 
             if (IsValid(answer, nums, currentValue * nums[index], index + 1)) return true;
 
+            //Added Concat variant for part two
+            if (IsValid(answer, nums, Concat(currentValue, nums[index]), index + 1)) return true;
+
             return false;
+        }
+        internal static long Concat(long firstValue, long secondValue)
+        {
+            string combinedNums = firstValue.ToString() + secondValue.ToString();
+            return long.Parse(combinedNums);
         }
     }
 }

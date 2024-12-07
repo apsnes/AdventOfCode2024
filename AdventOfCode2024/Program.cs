@@ -1,14 +1,11 @@
-﻿using AdventOfCode2024.Day6;
+﻿namespace AdventOfCode2024;
 
-
-namespace AdventOfCode2024
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Day7.ReadFile();
-            Console.WriteLine(Day7.Solution_One().ToString());
-        }
+        DaySix.ReadFile();
+        Console.WriteLine(DaySix.Solution_One());
+        Console.WriteLine(DaySix.Solution_Two());
     }
 }

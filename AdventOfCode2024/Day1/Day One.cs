@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2024
+namespace AdventOfCode2024.Day1
 {
     internal class Day_One
     {
@@ -14,7 +14,7 @@ namespace AdventOfCode2024
         {
             StreamReader sr = new("DayOne.txt");
             string line;
-            while((line = sr.ReadLine()) != null)
+            while ((line = sr.ReadLine()) != null)
             {
                 string[] lineParts = line.Split("   ");
                 leftColumn.Add(int.Parse(lineParts[0].Trim()));
@@ -23,7 +23,7 @@ namespace AdventOfCode2024
             leftColumn.Sort();
             rightColumn.Sort();
             int totalDistance = 0;
-            for(int i = 0; i < leftColumn.Count; i++)
+            for (int i = 0; i < leftColumn.Count; i++)
             {
                 totalDistance += Math.Abs(leftColumn[i] - rightColumn[i]);
             }
@@ -33,12 +33,12 @@ namespace AdventOfCode2024
         {
             Dictionary<int, int> rightColumnCounts = new();
             int similarityScore = 0;
-            foreach(int val in rightColumn)
+            foreach (int val in rightColumn)
             {
-                if(!rightColumnCounts.ContainsKey(val)) rightColumnCounts[val] = 0;
+                if (!rightColumnCounts.ContainsKey(val)) rightColumnCounts[val] = 0;
                 rightColumnCounts[val]++;
             }
-            foreach(int val in leftColumn)
+            foreach (int val in leftColumn)
             {
                 if (rightColumnCounts.ContainsKey(val))
                 {
@@ -47,7 +47,7 @@ namespace AdventOfCode2024
             }
             return similarityScore;
         }
-    }      
+    }
 }
 
 

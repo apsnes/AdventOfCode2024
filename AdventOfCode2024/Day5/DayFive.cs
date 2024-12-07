@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2024
+namespace AdventOfCode2024.Day5
 {
     internal static class DayFive
     {

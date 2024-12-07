@@ -5,7 +5,7 @@ using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2024
+namespace AdventOfCode2024.Day2
 {
     internal static class DayTwo
     {
@@ -20,7 +20,7 @@ namespace AdventOfCode2024
             {
                 string[] lineParts = line.Split();
                 int[] currentArray = new int[lineParts.Length];
-                for(int j = 0; j < lineParts.Length; j++)
+                for (int j = 0; j < lineParts.Length; j++)
                 {
                     currentArray[j] = int.Parse(lineParts[j].Trim());
                 }
@@ -60,7 +60,7 @@ namespace AdventOfCode2024
             bool isIncreasing = arr[1] > arr[0];
             for (int col = 1; col < arr.Length; col++)
             {
-                if ((isIncreasing && arr[col] < arr[col - 1]) || (!isIncreasing && arr[col] > arr[col - 1]) || Math.Abs(arr[col - 1] - arr[col]) > 3 || arr[col - 1] == arr[col])
+                if (isIncreasing && arr[col] < arr[col - 1] || !isIncreasing && arr[col] > arr[col - 1] || Math.Abs(arr[col - 1] - arr[col]) > 3 || arr[col - 1] == arr[col])
                 {
                     return false;
                 }

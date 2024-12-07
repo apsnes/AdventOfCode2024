@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2024
+namespace AdventOfCode2024.Day4
 {
     internal static class DayFour
     {
@@ -41,9 +41,9 @@ namespace AdventOfCode2024
         internal static int Solution_One()
         {
             int count = 0;
-            for(int i = 0; i < matrix.Length; i++)
+            for (int i = 0; i < matrix.Length; i++)
             {
-                for (int j = 0;j < matrix[i].Length; j++)
+                for (int j = 0; j < matrix[i].Length; j++)
                 {
                     if (matrix[i][j] == searchTerm[0])
                     {
@@ -89,7 +89,7 @@ namespace AdventOfCode2024
                         {
                             string diag1 = new string(new char[] { matrix[i - 1][j - 1], matrix[i][j], matrix[i + 1][j + 1] });
                             string diag2 = new string(new char[] { matrix[i - 1][j + 1], matrix[i][j], matrix[i + 1][j - 1] });
-                            if ((diag1 == "SAM" && diag2 == "SAM") || (diag1 == "SAM" && diag2 == "MAS") || (diag1 == "MAS" && diag2 == "MAS") || (diag1 == "MAS" && diag2 == "SAM"))
+                            if (diag1 == "SAM" && diag2 == "SAM" || diag1 == "SAM" && diag2 == "MAS" || diag1 == "MAS" && diag2 == "MAS" || diag1 == "MAS" && diag2 == "SAM")
                             {
                                 count++;
                             }
@@ -101,7 +101,7 @@ namespace AdventOfCode2024
                     }
                 }
             }
-            return count; 
+            return count;
         }
     }
 }

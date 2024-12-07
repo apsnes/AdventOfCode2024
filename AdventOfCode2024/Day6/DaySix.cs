@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode2024
+namespace AdventOfCode2024.Day6
 {
     internal static class DaySix
     {
@@ -14,7 +14,7 @@ namespace AdventOfCode2024
         {
             StreamReader sr = new("DaySix.txt");
             string line;
-            while((line = sr.ReadLine()) != null)
+            while ((line = sr.ReadLine()) != null)
             {
                 List<char> currChars = line.ToCharArray().ToList();
                 chars.Add(currChars);
@@ -31,7 +31,7 @@ namespace AdventOfCode2024
                 {
                     if (chars[i][j] == '^')
                     {
-                        guardPosition = (i, j); 
+                        guardPosition = (i, j);
                         break;
                     }
                 }
@@ -39,9 +39,9 @@ namespace AdventOfCode2024
             Direction currentDirection = Direction.North;
             HashSet<(int, int)> visitedPositions = new();
             visitedPositions.Add(guardPosition);
-            while (guardPosition.rows != 0 && guardPosition.cols != 0 && guardPosition.rows != rows -1 && guardPosition.cols != cols -1)
+            while (guardPosition.rows != 0 && guardPosition.cols != 0 && guardPosition.rows != rows - 1 && guardPosition.cols != cols - 1)
             {
-               switch (currentDirection)
+                switch (currentDirection)
                 {
                     case Direction.North:
                         {

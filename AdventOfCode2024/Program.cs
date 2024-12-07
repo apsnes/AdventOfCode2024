@@ -8,7 +8,7 @@ namespace AdventOfCode2024
         static void Main(string[] args)
         {
             Day7.ReadFile();
-            //Console.WriteLine(Day7.Solution_One);
+            Console.WriteLine(Day7.Solution_One().ToString());
         }
     }
 }

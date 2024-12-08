@@ -51,7 +51,14 @@ namespace AdventOfCode2024
                         if (coords == c) continue;
                         int rowDifference = coords.rows - c.rows;
                         int colDifference = coords.cols - c.cols;
-                        if (IsValidPosition(coords.rows + rowDifference, coords.cols + colDifference)) uniqueLocations.Add((coords.rows + rowDifference, coords.cols + colDifference));
+                        int currentRow = coords.rows;
+                        int currentCol = coords.cols;
+                        while (IsValidPosition(currentRow, currentCol))
+                        {
+                            uniqueLocations.Add((currentRow, currentCol));
+                            currentRow += rowDifference;
+                            currentCol += colDifference;
+                        }
                     }    
                 }
             }

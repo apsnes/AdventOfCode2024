@@ -51,6 +51,10 @@ namespace AdventOfCode2024
                         if (coords == c) continue;
                         int rowDifference = coords.rows - c.rows;
                         int colDifference = coords.cols - c.cols;
+                        //Removed following line from part 1, replaced with line 60 while loop
+                        //if (IsValidPosition(coords.rows + rowDifference, coords.cols + colDifference)) uniqueLocations.Add((coords.rows + rowDifference, coords.cols + colDifference));
+
+                        //Implemented while loop instead of if statement to solve part 2:
                         int currentRow = coords.rows;
                         int currentCol = coords.cols;
                         while (IsValidPosition(currentRow, currentCol))

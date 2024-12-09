@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,75 +17,50 @@ namespace AdventOfCode2024
         }
         internal static long Solution_One()
         {
-            StringBuilder sb = new();
-            for(int i = 0; i < puzzleInput.Length; i++)
+            List<char> disk = BuildDisk(puzzleInput);
+            CompactDisk(disk);
+            return CalculateChecksum(disk);
+        }
+        internal static List<char> BuildDisk(string input)
+        {
+            List<char> disk = new();
+            int fileID = 0;
+            
+            for (int i = 0; i < input.Length; i++)
             {
-                if (i % 2 == 0)
+                int length = int.Parse(input[i].ToString());
+
+                char currentChar = input[i];
+
+                if (i % 2 == 1) currentChar = '.';
+
+                for (int j = 0; j < length; j++)
                 {
-                    int emptySpace = int.Parse(puzzleInput[i].ToString());
-                    for (int j = 0; j < emptySpace; j++)
-                    {
-                        sb.Append('.');
-                    }
-                }
-                else
-                {
-                    int blockLength = int.Parse(puzzleInput[i].ToString());
-                    for (int j = 0; j < blockLength; j++)
-                    {
-                        sb.Append(puzzleInput[i]);
-                    }
+                    disk.Add(currentChar);
                 }
             }
-            string inputWithSpaces = sb.ToString();
-
-            sb.Clear();
-            int end = inputWithSpaces.Length - 1;
-
-            for (int i = 0; i <= end; i++)
+            return disk;
+        }
+        internal static void CompactDisk(List<char> disk)
+        {
+            while (disk.Contains('.'))
             {
-                if (inputWithSpaces[i] != '.') sb.Append(inputWithSpaces[i]);
-                else
+                int left = disk.FindIndex(c => c == '.');
+                int right = disk.FindLast(Char.IsNumber);
+                disk[left] = disk[right];
+                disk.RemoveAt(right);
+            }
+        }
+        internal static long CalculateChecksum(List<char> disk)
+        {
+            long checkSum = 0;
+            for (int i = 0; i <  disk.Count; i++)
+            {
                 {
-                    while (end >= 0 && inputWithSpaces[end] == '.') end--;
-                    if (end >= 0)
-                    {
-                        sb.Append(inputWithSpaces[end]);
-                        end--;
-                    }
+                    checkSum += i * long.Parse(disk[i].ToString());
                 }
             }
-
-            List<char> disk = new(sb.ToString());
-
-            int endIndex = disk.Count - 1;
-
-            for (int i = endIndex; i >= 0; i--)
-            {
-                if (disk[i] != '.')
-                {
-                    char fileID = disk[i];
-                    int firstEmptySpace = disk.FindIndex(x => x == '.');
-                    if (firstEmptySpace != -1)
-                    {
-                        disk[firstEmptySpace] = fileID;
-                        disk[i] = '.';
-                    }
-                }
-            }
-            long checksum = 0;
-            for (int i = 0; i < disk.Count; i++)
-            {
-                if (disk[i] != '.')
-                {
-                    checksum += i * long.Parse(disk[i].ToString());
-                }
-                else
-                {
-                    break;
-                }
-            }
-            return checksum;
+            return checkSum;
         }
     }
 }

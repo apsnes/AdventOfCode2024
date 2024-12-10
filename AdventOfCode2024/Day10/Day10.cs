@@ -11,7 +11,10 @@ namespace AdventOfCode2024
     internal static class Day10
     {
         static List<List<int>> map = new();
-        private static Dictionary<(int, int), int> memo = new();
+        static int totalScore = 0;
+        static HashSet<(int, int, int, int)> visitedScores = new();
+        static int originalI;
+        static int originalJ;
         internal static void ReadFile()
         {
             string line;
@@ -19,7 +22,7 @@ namespace AdventOfCode2024
             while ((line = sr.ReadLine()) != null)
             {
                 List<int> currentList = new();
-                foreach (char c in line)
+                foreach (char c in line.Trim())
                 {
                     currentList.Add(int.Parse(c.ToString()));
                 }
@@ -28,34 +31,38 @@ namespace AdventOfCode2024
         }
         internal static int Solution_One()
         {
-            int totalScore = 0;
             for (int i = 0; i < map.Count; i++)
             {
                 for (int j = 0; j < map[i].Count; j++)
                 {
                     if (map[i][j] == 0)
                     {
-                        totalScore += CalculatePathScore(i, j);
+                        originalI = i;
+                        originalJ = j;
+                        CalculatePathScore(i, j);
                     }
                 }
             }
             return totalScore;
         }
-        internal static int CalculatePathScore(int i, int j)
+        internal static void CalculatePathScore(int i, int j)
         {
-            if (memo.ContainsKey((i, j))) return memo[(i, j)];
-
-            int score = 0;
-            if (i < 0 || j < 0 || i >= map.Count || j >= map[0].Count) return 0;
+            if (i < 0 || j < 0 || i >= map.Count || j >= map[0].Count) return;
 
             int current = map[i][j];
-            if (current == 9) return 1;
+            if (current == 9)
+            {
+                if (!visitedScores.Contains((originalI, originalJ, i, j)))
+                {
+                    totalScore += 1;
+                    visitedScores.Add((originalI, originalJ, i, j));
+                }
+            }
 
-            if (i < map.Count - 1 && map[i + 1][j] == current + 1) score += CalculatePathScore(i + 1, j);
-            if (i > 0 && map[i - 1][j] == current + 1) score += CalculatePathScore(i - 1, j);
-            if (j < map[0].Count - 1 && map[i][j + 1] == current + 1) score += CalculatePathScore(i, j + 1);
-            if (j > 0 && map[i][j - 1] == current + 1) score += CalculatePathScore(i, j - 1);
-            return score;
+            if (i < map.Count - 1 && map[i + 1][j] == current + 1) CalculatePathScore(i + 1, j);
+            if (i > 0 && map[i - 1][j] == current + 1) CalculatePathScore(i - 1, j);
+            if (j < map[0].Count - 1 && map[i][j + 1] == current + 1) CalculatePathScore(i, j + 1);
+            if (j > 0 && map[i][j - 1] == current + 1) CalculatePathScore(i, j - 1);
         }
     }
 }

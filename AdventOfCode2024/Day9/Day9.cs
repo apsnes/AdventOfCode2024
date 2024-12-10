@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,7 +63,7 @@ namespace AdventOfCode2024
             long checkSum = 0;
             for (int i = 0; i < disk.Count; i++)
             {
-                if (disk[i] == -1) break;
+                if (disk[i] == -1) continue;
                 {
                     checkSum += i * disk[i];
                 }
@@ -71,29 +72,63 @@ namespace AdventOfCode2024
         }
         internal static long Solution_Two()
         {
+            ReadFile();
             List<int> disk = BuildDisk(puzzleInput);
             CompactDiskPartTwo(disk);
             return CalculateChecksum(disk);
         }
         internal static void CompactDiskPartTwo(List<int> disk)
         {
-            int lastNum = disk.FindLastIndex(x => x > 0);
-            int firstNum = disk.Find(x => x == -1);
-
-            while (firstNum < lastNum)
+            while (disk.Contains(-1))
             {
-                int lastNumLength = 0;
-                int firstNumLength = 0;
-                for (int i = lastNum; i >= 0; i--)
+                int left = 0;
+                int right = disk.Count - 1;
+                int length = 0;
+                int endLength = 0;
+                while (left < right)
                 {
-                    if (disk[i] != lastNum)
+                    int emptyStart = left;
+                    if (disk[right] == -1)
                     {
-                        i++;
-                        break;
+                        disk.RemoveAt(right);
+                        continue;
+                    }
+                    if (disk[emptyStart] == -1)
+                    {
+                        int tempIndex = emptyStart;
+                        while (disk[tempIndex] == -1) tempIndex++;
+                        length = tempIndex - emptyStart;
+
+                        int endNum = disk[right];
+                        int tempEnd = right;
+                        while (disk[tempEnd] == endNum) tempEnd--;
+                        endLength = right - tempEnd;
+                    }
+                    else
+                    {
+                        left++;
+                        continue;
+                    }
+                    while (endLength > length)
+                    {
+                        for (int i = emptyStart; i < disk.Count; i++)
+                        {
+                            if (disk[i] == -1) break;
+                            emptyStart++;
+                        }
+                        int tempIndex = emptyStart;
+                        while (disk[tempIndex] == -1) tempIndex++;
+                        length = tempIndex - emptyStart;
+                    }
+                    for (int i = left, j = right; i < i + endLength; i++, j--)
+                    {
+                        disk[i] = disk[j];
+                        disk.RemoveAt(j);
+                        left++;
+                        right--;
                     }
                 }
             }
-            
         }
     }
 }

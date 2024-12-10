@@ -13,6 +13,7 @@ namespace AdventOfCode2024
         static List<List<int>> map = new();
         static int totalScore = 0;
         static HashSet<(int, int, int, int)> visitedScores = new();
+        static Dictionary<(int, int, int, int), int> routes = new();
         static int originalI;
         static int originalJ;
         internal static void ReadFile()
@@ -57,12 +58,23 @@ namespace AdventOfCode2024
                     totalScore += 1;
                     visitedScores.Add((originalI, originalJ, i, j));
                 }
+                if (!routes.ContainsKey((originalI, originalJ, i, j))) routes[((originalI, originalJ, i, j))] = 0;
+                routes[((originalI, originalJ, i, j))]++;
             }
 
             if (i < map.Count - 1 && map[i + 1][j] == current + 1) CalculatePathScore(i + 1, j);
             if (i > 0 && map[i - 1][j] == current + 1) CalculatePathScore(i - 1, j);
             if (j < map[0].Count - 1 && map[i][j + 1] == current + 1) CalculatePathScore(i, j + 1);
             if (j > 0 && map[i][j - 1] == current + 1) CalculatePathScore(i, j - 1);
+        }
+        internal static int CalculateRouteScore()
+        {
+            int sum = 0;
+            foreach (var  route in routes)
+            {
+                sum += route.Value;
+            }
+            return sum;
         }
     }
 }

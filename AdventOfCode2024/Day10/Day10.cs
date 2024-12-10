@@ -14,8 +14,6 @@ namespace AdventOfCode2024
         static int totalScore = 0;
         static HashSet<(int, int, int, int)> visitedScores = new();
         static Dictionary<(int, int, int, int), int> routes = new();
-        static int originalI;
-        static int originalJ;
         internal static void ReadFile()
         {
             string line;
@@ -38,15 +36,15 @@ namespace AdventOfCode2024
                 {
                     if (map[i][j] == 0)
                     {
-                        originalI = i;
-                        originalJ = j;
-                        CalculatePathScore(i, j);
+                        int originalI = i;
+                        int originalJ = j;
+                        CalculatePathScore(originalI, originalJ, i, j);
                     }
                 }
             }
             return totalScore;
         }
-        internal static void CalculatePathScore(int i, int j)
+        internal static void CalculatePathScore(int originalI, int originalJ, int i, int j)
         {
             if (i < 0 || j < 0 || i >= map.Count || j >= map[0].Count) return;
 
@@ -62,10 +60,10 @@ namespace AdventOfCode2024
                 routes[((originalI, originalJ, i, j))]++;
             }
 
-            if (i < map.Count - 1 && map[i + 1][j] == current + 1) CalculatePathScore(i + 1, j);
-            if (i > 0 && map[i - 1][j] == current + 1) CalculatePathScore(i - 1, j);
-            if (j < map[0].Count - 1 && map[i][j + 1] == current + 1) CalculatePathScore(i, j + 1);
-            if (j > 0 && map[i][j - 1] == current + 1) CalculatePathScore(i, j - 1);
+            if (i < map.Count - 1 && map[i + 1][j] == current + 1) CalculatePathScore(originalI, originalJ, i + 1, j);
+            if (i > 0 && map[i - 1][j] == current + 1) CalculatePathScore(originalI, originalJ, i - 1, j);
+            if (j < map[0].Count - 1 && map[i][j + 1] == current + 1) CalculatePathScore(originalI, originalJ, i, j + 1);
+            if (j > 0 && map[i][j - 1] == current + 1) CalculatePathScore(originalI, originalJ, i, j - 1);
         }
         internal static int CalculateRouteScore()
         {

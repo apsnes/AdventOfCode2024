@@ -4,7 +4,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        Day9.ReadFile();
-        Console.WriteLine(Day9.Solution_One());
+        Day10.ReadFile();
+        Console.WriteLine(Day10.Solution_One());
     }
 }

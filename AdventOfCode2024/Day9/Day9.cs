@@ -69,5 +69,31 @@ namespace AdventOfCode2024
             }
             return checkSum;
         }
+        internal static long Solution_Two()
+        {
+            List<int> disk = BuildDisk(puzzleInput);
+            CompactDiskPartTwo(disk);
+            return CalculateChecksum(disk);
+        }
+        internal static void CompactDiskPartTwo(List<int> disk)
+        {
+            int lastNum = disk.FindLastIndex(x => x > 0);
+            int firstNum = disk.Find(x => x == -1);
+
+            while (firstNum < lastNum)
+            {
+                int lastNumLength = 0;
+                int firstNumLength = 0;
+                for (int i = lastNum; i >= 0; i--)
+                {
+                    if (disk[i] != lastNum)
+                    {
+                        i++;
+                        break;
+                    }
+                }
+            }
+            
+        }
     }
 }

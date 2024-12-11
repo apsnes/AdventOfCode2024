@@ -7,46 +7,52 @@ using System.Threading.Tasks;
 namespace AdventOfCode2024
 {
     internal static class Day11
-    {
-        internal static int Solution_One()
+    {      
+        static Dictionary<(long, int), long> seenStones = new();
+
+        internal static long Solution(int blinks)
         {
-            //Setup initial stoneList
             string input = "27 10647 103 9 0 5524 4594227 902936";
-            string[] stones = input.Split(' ');
-            List<long> stoneList = new();
-            foreach (string stone in stones)
+            var stones = input.Split(' ').Select(long.Parse).ToList();
+
+            long total = stones.Count;
+
+            foreach (var stone in stones)
             {
-                long stoneValue = int.Parse(stone);
-                stoneList.Add(stoneValue);
+                total += CalculateStoneCount(blinks, stone);
             }
 
-            //Loop 25 times
-            for (int i = 0; i < 25; i++)
+            return total;
+        }
+
+        internal static long CalculateStoneCount(int blinks, long num)
+        {
+            if (blinks == 0) return 0;
+
+            if (seenStones.ContainsKey((num, blinks))) return seenStones[(num, blinks)];
+
+            long total = 0;
+
+            if (num == 0)
             {
-                List<long> tempList = new();
-                for (int j = 0; j < stoneList.Count; j++)
-                {
-                    if (stoneList[j] == 0)
-                    {
-                        tempList.Add(1);
-                    }
-                    else if (stoneList[j].ToString().Length % 2 == 0)
-                    {
-                        string current = stoneList[j].ToString();
-                        int length = current.Length;
-                        string firstHalf = current.Substring(0, length / 2);
-                        string secondHalf = current.Substring(length / 2);
-                        tempList.Add(long.Parse(firstHalf));
-                        tempList.Add(long.Parse(secondHalf));
-                    }
-                    else
-                    {
-                        tempList.Add(stoneList[j] * 2024);
-                    }
-                }
-                stoneList = tempList;
+                total = CalculateStoneCount(blinks - 1, 1);
+                seenStones[(num, blinks)] = total;
+                return total;
             }
-            return stoneList.Count;
+
+            string numAsString = num.ToString();
+            if (numAsString.Length % 2 == 0)
+            {
+                total++;
+                total += CalculateStoneCount(blinks - 1, int.Parse(numAsString.Substring(0, numAsString.Length / 2)));
+                total += CalculateStoneCount(blinks - 1, int.Parse(numAsString.Substring(numAsString.Length / 2)));
+                seenStones[(num, blinks)] = total;
+                return total;
+            }
+
+            total = CalculateStoneCount(blinks - 1, num * 2024);
+            seenStones[(num, blinks)] = total;
+            return total;
         }
     }
 }

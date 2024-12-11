@@ -4,6 +4,6 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine(Day9.Solution_Two());
+        Console.WriteLine(Day11.Solution_One());
     }
 }

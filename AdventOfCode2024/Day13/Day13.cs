@@ -42,8 +42,6 @@ namespace AdventOfCode2024
                 decimal prize_X = coordinates[i + 2].x + 10000000000000;
                 decimal prize_Y = coordinates[i + 2].y + 10000000000000;
 
-                bool validCombination = false;
-
                 decimal delta = buttonA_X * buttonB_Y - buttonA_Y * buttonB_X;
                 if (delta == 0) continue;
                 decimal a = (buttonB_Y * prize_X - buttonB_X * prize_Y) / delta;

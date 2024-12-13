@@ -39,8 +39,8 @@ namespace AdventOfCode2024
                 long buttonA_Y = coordinates[i].y;
                 long buttonB_X = coordinates[i + 1].x;
                 long buttonB_Y = coordinates[i + 1].y;
-                decimal prize_X = coordinates[i + 2].x; + 10000000000000;
-                decimal prize_Y = coordinates[i + 2].y; + 10000000000000;
+                decimal prize_X = coordinates[i + 2].x + 10000000000000;
+                decimal prize_Y = coordinates[i + 2].y + 10000000000000;
 
                 bool validCombination = false;
 

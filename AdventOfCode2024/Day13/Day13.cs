@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace AdventOfCode2024
 {
     internal static class Day13
     {
-        static List<(int x, int y)> coordinates = new();
+        static List<(long x, long y)> coordinates = new();
         internal static void ReadCoordinates()
         {
             var coords = new List<(int x, int y)>();
@@ -21,51 +22,35 @@ namespace AdventOfCode2024
                            .Select(line => regex.Match(line))
                            .Where(match => match.Success)
                            .Select(match => (
-                               int.Parse(match.Groups["X"].Value),
-                               int.Parse(match.Groups["Y"].Value)))
+                               long.Parse(match.Groups["X"].Value),
+                               long.Parse(match.Groups["Y"].Value)))
                            .ToList();
         }
 
-        internal static int Solution_One()
+        internal static decimal Solution_One()
         {
             ReadCoordinates();
 
-            int tokensSpent = 0;
+            decimal tokensSpent = 0;
 
             for (int i = 0; i < coordinates.Count; i += 3)
             {
-                int buttonA_X = coordinates[i].x;
-                int buttonA_Y = coordinates[i].y;
-                int buttonB_X = coordinates[i + 1].x;
-                int buttonB_Y = coordinates[i + 1].y;
-                int prize_X = coordinates[i + 2].x;
-                int prize_Y = coordinates[i + 2].y;
-
-                int minTokensSpent = int.MaxValue;
+                long buttonA_X = coordinates[i].x;
+                long buttonA_Y = coordinates[i].y;
+                long buttonB_X = coordinates[i + 1].x;
+                long buttonB_Y = coordinates[i + 1].y;
+                decimal prize_X = coordinates[i + 2].x; + 10000000000000;
+                decimal prize_Y = coordinates[i + 2].y; + 10000000000000;
 
                 bool validCombination = false;
 
-                for (int a = 0; a <= 100; a++)
-                {
-                    int numeratorX = prize_X - buttonA_X * a;
-
-                    if (numeratorX < 0) break; 
-
-                    if (numeratorX % buttonB_X == 0)
-                    {
-                        int b = numeratorX / buttonB_X;
-
-                        if (b >= 0 && b <= 100)
-                        {
-                            if (buttonA_Y * a + buttonB_Y * b == prize_Y)
-                            {
-                                validCombination = true;
-                                minTokensSpent = Math.Min((a * 3) + b, minTokensSpent);
-                            }
-                        }
-                    }
-                }
-                if (validCombination) tokensSpent += minTokensSpent;
+                decimal delta = buttonA_X * buttonB_Y - buttonA_Y * buttonB_X;
+                if (delta == 0) continue;
+                decimal a = (buttonB_Y * prize_X - buttonB_X * prize_Y) / delta;
+                decimal b = (buttonA_X * prize_Y - buttonA_Y * prize_X) / delta;
+                if (a % 1 != 0) continue;
+                if (b % 1 != 0) continue;
+                if ((3 * a) + b < decimal.MaxValue) tokensSpent += (3 * a) + b;
             }
             return tokensSpent;
         }

@@ -4,6 +4,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine(Day13.Solution_One());
+        Day14.ReadFile();
+        Console.WriteLine(Day14.CalculateSafetyFactor());
     }
 }

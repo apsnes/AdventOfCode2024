@@ -21,7 +21,7 @@ namespace AdventOfCode2024
             {
                 total += CalculateStoneCount(blinks, stone);
             }
-
+            
             return total;
         }
 

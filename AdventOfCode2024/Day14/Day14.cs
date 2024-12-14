@@ -8,6 +8,7 @@ public static class Day14
     
     public static void ReadFile()
     {
+        _robots.Clear();
         const string pattern = @"p=(?<px>-?\d+),(?<py>-?\d+)\s+v=(?<vx>-?\d+),(?<vy>-?\d+)";
         var regex = new Regex(pattern);
         foreach (Match match in regex.Matches(File.ReadAllText("Day14/Day14.txt")))
@@ -35,6 +36,40 @@ public static class Day14
             if (robot.Px > 50 && robot.Py > 51) bottomRightCount++;
         }
         return (long)topLeftCount * topRightCount * bottomLeftCount * bottomRightCount;
+    }
+
+    public static int DetectChristmasTree()
+    {
+        int count = 0;
+        int maxNeighbours = 0;
+        for (int i = 0; i < 100000; i++)
+        {
+            int currentNeighbours = 0;
+            HashSet<(int x, int y)> coordsList = new();
+            foreach (var robot in _robots)
+            {
+                robot.Px = ((robot.Px + robot.Vx) % 101 + 101) % 101;
+                robot.Py = ((robot.Py + robot.Vy) % 103 + 103) % 103;
+                if (!coordsList.Contains((robot.Px, robot.Py))) coordsList.Add((robot.Px, robot.Py));
+                if (coordsList.Contains((robot.Px + 1, robot.Py)) || 
+                    coordsList.Contains((robot.Px - 1, robot.Py)) ||
+                    coordsList.Contains((robot.Px, robot.Py + 1)) ||
+                    coordsList.Contains((robot.Px, robot.Py - 1)) ||
+                    coordsList.Contains((robot.Px + 1, robot.Py + 1)) ||
+                    coordsList.Contains((robot.Px - 1, robot.Py - 1)) ||
+                    coordsList.Contains((robot.Px + 1, robot.Py - 1)) ||
+                    coordsList.Contains((robot.Px - 1, robot.Py + 1)))
+                {
+                    currentNeighbours++;
+                }
+            }
+            if (currentNeighbours > maxNeighbours)
+            {
+                count = i;
+                maxNeighbours = currentNeighbours;
+            }
+        }
+        return count;
     }
 }
 

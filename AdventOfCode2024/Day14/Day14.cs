@@ -69,7 +69,7 @@ public static class Day14
                 maxNeighbours = currentNeighbours;
             }
         }
-        return count;
+        return count + 1;
     }
 }
 

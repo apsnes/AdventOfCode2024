@@ -47,6 +47,14 @@ public static class Day15
         foreach (char c in instructions)
         {
             ShiftArray(c);
+            foreach (var list in map)
+            {
+                foreach (char v in list)
+                {
+                    Console.Write(v);
+                }
+                Console.WriteLine();
+            }
         }
 
         long GPSSum = 0;
@@ -65,10 +73,9 @@ public static class Day15
 
     public static void ShiftArray(char direction)
     {
-        if (rowIndex == map.Count - 1 || rowIndex == 0) return;
-        if (colIndex == map[0].Count - 1 || colIndex == 0) return;
         if (direction == '>')
         {
+            if (colIndex >= map[0].Count - 2) return;
             StringBuilder sb = new();
             for (int i = colIndex; i < map[rowIndex].Count; i++)
             {
@@ -76,9 +83,12 @@ public static class Day15
             }
             char[] currentArray = sb.ToString().ToCharArray();
             if (!currentArray.Contains('.')) return;
-            int firstBlock = Array.IndexOf(currentArray, '#');
             int firstSpace = Array.IndexOf(currentArray, '.');
-            if (firstBlock < firstSpace) return;
+            if (currentArray.Contains('#'))
+            {
+                int firstBlock = Array.IndexOf(currentArray, '#');
+                if (firstBlock < firstSpace) return;
+            }
             for (int i = firstSpace; i >= colIndex; i--)
             {
                 map[rowIndex][i] = map[rowIndex][i - 1];
@@ -88,6 +98,7 @@ public static class Day15
         }
         if (direction == '<')
         {
+            if (colIndex <= 1) return;
             StringBuilder sb = new();
             for (int i = 0; i <= colIndex; i++)
             {
@@ -95,9 +106,12 @@ public static class Day15
             }
             char[] currentArray = sb.ToString().ToCharArray();
             if (!currentArray.Contains('.')) return;
-            int firstBlock = Array.LastIndexOf(currentArray, '#');
             int firstSpace = Array.LastIndexOf(currentArray, '.');
-            if (firstBlock > firstSpace) return;
+            if (currentArray.Contains('#'))
+            {
+                int firstBlock = Array.LastIndexOf(currentArray, '#');
+                if (firstBlock > firstSpace) return;
+            }
             for (int i = firstSpace; i <= colIndex; i++)
             {
                 map[rowIndex][i] = map[rowIndex][i + 1];
@@ -107,6 +121,7 @@ public static class Day15
         }
         if (direction == '^')
         {
+            if (rowIndex <= 1) return;
             StringBuilder sb = new();
             for (int i = 0; i <= rowIndex; i++)
             {
@@ -114,9 +129,12 @@ public static class Day15
             }
             char[] currentArray = sb.ToString().ToCharArray();
             if (!currentArray.Contains('.')) return;
-            int firstBlock = Array.LastIndexOf(currentArray, '#');
             int firstSpace = Array.LastIndexOf(currentArray, '.');
-            if (firstBlock > firstSpace) return;
+            if (currentArray.Contains('#'))
+            {
+                int firstBlock = Array.LastIndexOf(currentArray, '#');
+                if (firstBlock > firstSpace) return;
+            }
             for (int i = firstSpace; i <= rowIndex; i++)
             {
                 map[i][colIndex] = map[i + 1][colIndex];
@@ -126,6 +144,7 @@ public static class Day15
         }
         if (direction == 'v')
         {
+            if (rowIndex == map.Count - 2) return;
             StringBuilder sb = new();
             for (int i = rowIndex; i < map.Count; i++)
             {
@@ -133,9 +152,12 @@ public static class Day15
             }
             char[] currentArray = sb.ToString().ToCharArray();
             if (!currentArray.Contains('.')) return;
-            int firstBlock = Array.IndexOf(currentArray, '#');
             int firstSpace = Array.IndexOf(currentArray, '.');
-            if (firstBlock < firstSpace) return;
+            if (currentArray.Contains('#'))
+            {
+                int firstBlock = Array.IndexOf(currentArray, '#');
+                if (firstBlock < firstSpace) return;
+            }
             for (int i = firstSpace; i >= rowIndex; i--)
             {
                 map[i][colIndex] = map[i - 1][colIndex];

@@ -8,14 +8,15 @@ namespace AdventOfCode2024
 {
     internal static class Day17
     {
-        internal static int RegisterA = 44348299;
-        internal static int RegisterB = 0;
-        internal static int RegisterC = 0;
+        internal static long RegisterA = 44348299;
+        internal static long RegisterB = 0;
+        internal static long RegisterC = 0;
         internal static int[] Program = { 2, 4, 1, 5, 7, 5, 1, 6, 0, 3, 4, 2, 5, 5, 3, 0 };
         internal static int CurrentPointer = 0;
-        internal static List<int> ToOutput = new();
+        internal static List<long> ToOutput = new();
         internal static bool Jumped = false;
-        internal static Dictionary<int, int> ComboOperands = new Dictionary<int, int>
+        internal static string FirstOutput = "";
+        internal static Dictionary<int, long> ComboOperands = new Dictionary<int, long>
         {
             { 0, 0 },
             { 1, 1 },
@@ -37,7 +38,8 @@ namespace AdventOfCode2024
                 }
                 CurrentPointer += 2;
             }
-            Console.WriteLine(String.Join(",", ToOutput));
+            FirstOutput = (String.Join(",", ToOutput));
+            Console.WriteLine(FirstOutput);
         }
         internal static void Perform_Instruction(int instruction, int operand)
         {
@@ -75,6 +77,32 @@ namespace AdventOfCode2024
                     RegisterC = RegisterA / (int)(Math.Pow(2, ComboOperands[operand]));
                     ComboOperands[6] = RegisterC;
                     break;
+            }
+        }
+        internal static void Solution_Two()
+        {
+            CurrentPointer = 0;
+            ToOutput.Clear();
+            string ExpectedSolution = String.Join(",", Program);
+            for (long i = 0; i < long.MaxValue; i++)
+            {
+                RegisterA = i;
+                while (CurrentPointer < Program.Length)
+                {
+                    Perform_Instruction(Program[CurrentPointer], Program[CurrentPointer + 1]);
+                    if (Jumped)
+                    {
+                        Jumped = false;
+                        continue;
+                    }
+                    CurrentPointer += 2;
+                }
+                string CurrentOutput = (String.Join(",", ToOutput));
+                if (CurrentOutput == ExpectedSolution)
+                {                  
+                    Console.WriteLine(i);
+                    break;
+                }
             }
         }
     }

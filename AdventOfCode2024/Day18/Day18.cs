@@ -29,11 +29,37 @@ namespace AdventOfCode2024
             {
                 int x = Coordinates[i].x;
                 int y = Coordinates[i].y;
-                map[x][y] = '#';
+                map[x][y] = 1;
             }
         }
         internal static int CalculateShortestPath()
         {
+            List<(int row, int col)> directions = [(0, 1), (0, -1), (1, 0), (-1, 0)];
+            Queue<(int row, int col, int length)> q = new();
+            q.Enqueue((0, 0, 0));
+
+            map[0][0] = 1;
+
+            while (q.Count > 0)
+            {
+                var current = q.Dequeue();
+                int currentRow = current.row;
+                int currentCol = current.col;
+                int currentLength = current.length;
+                if (currentRow == 70 && currentCol == 70) return currentLength;
+
+                foreach (var tup in directions)
+                {
+                    int newRow = currentRow + tup.row;
+                    int newCol = currentCol + tup.col;
+
+                    if ((newRow >= 0 && newRow <= 70) && (newCol >= 0 && newCol <= 70) && map[newRow][newCol] == 0)
+                    {
+                        map[newRow][newCol] = 1;
+                        q.Enqueue((newRow, newCol, currentLength + 1));
+                    }
+                }
+            }
             return 0;
         }
     }

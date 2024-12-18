@@ -19,13 +19,13 @@ namespace AdventOfCode2024
                 Coordinates.Add((int.Parse(nums[0]), int.Parse(nums[1])));
             }
         }
-        internal static void WriteBlocks()
+        internal static void WriteBlocks(int index)
         {
             for (int i = 0; i <= 70; i++)
             {
                 map[i] = new int[71];
             }
-            for (int i = 0; i < 1024; i++)
+            for (int i = 0; i < index; i++)
             {
                 int x = Coordinates[i].x;
                 int y = Coordinates[i].y;
@@ -69,6 +69,19 @@ namespace AdventOfCode2024
             }
             //If no paths were found, return default value of 0 steps
             return 0;
+        }
+        internal static (int, int) CalculateCutOff()
+        {
+            for (int i = 1024; i < Coordinates.Count; i++)
+            {
+                //Rewrite map for each iteration
+                WriteBlocks(i);
+                int row = Coordinates[i].x;
+                int col = Coordinates[i].y;
+                //Check if path still valid, if not, return previous coordinates as that would have been the byte to block the map
+                if (CalculateShortestPath() == 0) return Coordinates[i - 1];
+            }
+            return (0, 0);
         }
     }
 }

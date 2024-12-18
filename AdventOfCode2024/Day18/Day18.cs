@@ -34,10 +34,12 @@ namespace AdventOfCode2024
         }
         internal static int CalculateShortestPath()
         {
+            //Maintain a list of all directions
             List<(int row, int col)> directions = [(0, 1), (0, -1), (1, 0), (-1, 0)];
+            //Create a queue to hold coordinates and current steps taken
             Queue<(int row, int col, int length)> q = new();
+            //Enqueue first position in the grid with length 0 as we are counting STEPS TAKEN, not path length
             q.Enqueue((0, 0, 0));
-
             map[0][0] = 1;
 
             while (q.Count > 0)
@@ -46,8 +48,11 @@ namespace AdventOfCode2024
                 int currentRow = current.row;
                 int currentCol = current.col;
                 int currentLength = current.length;
+                //If we've reached the endpoint, return current steps taken
                 if (currentRow == 70 && currentCol == 70) return currentLength;
 
+                //Foreach direction, add the row & col values to our current row & col values,
+                //then check if the new position on the map is within bounds and not blocked or already visited.
                 foreach (var tup in directions)
                 {
                     int newRow = currentRow + tup.row;
@@ -55,11 +60,14 @@ namespace AdventOfCode2024
 
                     if ((newRow >= 0 && newRow <= 70) && (newCol >= 0 && newCol <= 70) && map[newRow][newCol] == 0)
                     {
+                        //If valid, set new position to 1 so we dont revisit it.
                         map[newRow][newCol] = 1;
+                        //Enqueue new position with length + 1 so that we can run the algorithm on the new position also.
                         q.Enqueue((newRow, newCol, currentLength + 1));
                     }
                 }
             }
+            //If no paths were found, return default value of 0 steps
             return 0;
         }
     }

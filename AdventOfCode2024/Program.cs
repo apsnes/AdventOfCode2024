@@ -6,7 +6,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        Day18.ReadFile();
-        Console.WriteLine(Day18.CalculateCutOff());
+        Day19.ReadFiles();
+        Console.WriteLine(Day19.CountValidDesigns());
     }
 }

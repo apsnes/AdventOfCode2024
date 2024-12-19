@@ -16,14 +16,16 @@ namespace AdventOfCode2024
             combinations = [.. File.ReadAllText("Day19/combinations.txt").Split(", ")];
             towelDesigns = [.. File.ReadAllLines("Day19/towelDesigns.txt")];
         }
-        internal static int CountValidDesigns()
+        internal static (int, long) ValidDesigns()
         {
-            int count = 0;
+            int validDesignCount = 0;
+            long validCombinationCount = 0;
             foreach (string design in towelDesigns)
             {
-                if (IsValidDesign(design)) count++;
+                if (IsValidDesign(design)) validDesignCount++;
+                validCombinationCount += CountValidCombinations(design);
             }
-            return count;
+            return (validDesignCount, validCombinationCount);
         }
         private static bool IsValidDesign(string design)
         {
@@ -53,6 +55,25 @@ namespace AdventOfCode2024
                 }
             }
             return false;
+        }
+        private static int CountValidCombinations(string design)
+        {
+            int[] dp = new int[design.Length + 1];
+            dp[0] = 1;
+            for (int i = 0; i < design.Length; i++)
+            {
+                if (dp[i] > 0)
+                {
+                    for (int j = i + 1; j <= design.Length; j++)
+                    {
+                        if (combinations.Contains(design[i..j]))
+                        {
+                            dp[j] += dp[i];
+                        }
+                    }
+                }
+            }
+            return dp[design.Length];
         }
     }
 }

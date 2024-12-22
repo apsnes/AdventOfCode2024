@@ -11,6 +11,7 @@
     <None Remove="Day10\Day10.txt" />
     <None Remove="Day13\Day13.txt" />
     <None Remove="Day18\Day18.txt" />
+    <None Remove="Day22\Day22.txt" />
     <None Remove="Day7\Day7.txt" />
     <None Remove="Day8\Day8.txt" />
     <None Remove="Day8\Day8Test.txt" />
@@ -38,6 +39,9 @@
     </Content>
     <Content Include="Day19\combinations.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Day22\Day22.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Day5\DayFive.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

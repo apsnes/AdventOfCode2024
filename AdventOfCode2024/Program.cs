@@ -6,6 +6,6 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        Day22.ReadFile();
+        Day23.ReadFile();
     }
 }
